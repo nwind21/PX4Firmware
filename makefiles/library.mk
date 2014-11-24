@@ -1,3 +1,5 @@
+$(info > in PX4Firmware/makefiles/library.mk)
+
 #
 #   Copyright (c) 2013 PX4 Development Team. All rights reserved.
 #
@@ -167,3 +169,5 @@ endif
 
 clean:
 	$(Q) $(REMOVE) $(LIBRARY_LIB) $(OBJS)
+
+$(info < out PX4Firmware/makefiles/library.mk)

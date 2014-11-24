@@ -1,3 +1,5 @@
+$(info > in PX4Firmware/makesfiles/setup.mk)
+
 #
 #   Copyright (C) 2012 PX4 Development Team. All rights reserved.
 #
@@ -37,7 +39,7 @@
 # Some useful paths.
 #
 # Note that in general we always keep directory paths with the separator
-# at the end, and join paths without explicit separators. This reduces 
+# at the end, and join paths without explicit separators. This reduces
 # the number of duplicate slashes we have lying around in paths,
 # and is consistent with joining the results of $(dir) and $(notdir).
 #
@@ -93,3 +95,17 @@ endif
 # Makefile debugging.
 #
 export Q		:= $(if $(V),,@)
+
+
+$(info define PX4BASE: $(abspath $(PX4_BASE)) )
+$(info define ARCHIVE_DIR: $(ARCHIVE_DIR) )
+$(info define IMAGE_DIR: $(IMAGE_DIR) )
+$(info define NUTTX_SRC: $(NUTTX_SRC) )
+$(info define NUTTX_APP_SRC: $(NUTTX_APP_SRC) )
+$(info define PX4_LIB_DIR: $(PX4_LIB_DIR) )
+$(info define PX4_MK_DIR: $(PX4_MK_DIR) )
+$(info define PX4_MODULE_SRC: $(PX4_MODULE_SRC) )
+$(info define PX4_INCLUDE_DIR: $(PX4_INCLUDE_DIR) )
+$(info define SYSTYPE: $(SYSTYPE) )
+
+$(info < out PX4Firmware/makesfiles/setup.mk)

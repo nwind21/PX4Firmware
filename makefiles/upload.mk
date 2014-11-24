@@ -1,9 +1,9 @@
+$(info > in PX4Firmware/makefiles/upload.mk)
 #
 # Rules and tools for uploading firmware to various PX4 boards.
 #
 
 UPLOADER		 = $(PX4_BASE)/Tools/px_uploader.py
-
 SYSTYPE			:= $(shell uname -s)
 
 #
@@ -20,6 +20,11 @@ endif
 ifeq ($(SERIAL_PORTS),)
 SERIAL_PORTS		 = "COM32,COM31,COM30,COM29,COM28,COM27,COM26,COM25,COM24,COM23,COM22,COM21,COM20,COM19,COM18,COM17,COM16,COM15,COM14,COM13,COM12,COM11,COM10,COM9,COM8,COM7,COM6,COM5,COM4,COM3,COM2,COM1,COM0"
 endif
+
+$(info define UPLOADER: $(UPLOADER))
+$(info define SYSTYPE: $(SYSTYPE))
+$(info define BUNDLE: $(BUNDLE))
+$(info define SERIAL_PORTS: $(SERIAL_PORTS))
 
 .PHONY:	all upload-$(METHOD)-$(BOARD)
 all:	upload-$(METHOD)-$(BOARD)
@@ -42,3 +47,5 @@ upload-jtag-px4fmu: all
 upload-jtag-px4io: all
 	@$(ECHO) Attempting to flash PX4IO board via JTAG
 	$(Q) $(OPENOCD) -f $(JTAGCONFIG) -f ../Bootloader/stm32f1x.cfg -c init -c "reset halt" -c "flash write_image erase nuttx/nuttx" -c "flash write_image erase ../Bootloader/px4io_bl.elf" -c "reset run" -c shutdown
+
+$(info < out PX4Firmware/makefiles/upload.mk)

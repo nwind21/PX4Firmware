@@ -1,3 +1,4 @@
+$(info in config_px4io-v2_default.mk)
 #
 # Makefile for the px4iov2_default configuration
 #

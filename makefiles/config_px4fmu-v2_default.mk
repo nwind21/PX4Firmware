@@ -1,3 +1,4 @@
+$(info in config_px4fmu-v2_default.mk)
 #
 # Makefile for the px4fmu_default configuration
 #

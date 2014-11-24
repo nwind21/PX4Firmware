@@ -1,3 +1,5 @@
+$(info > in PX4Firmware/makefiles/toolchain_gnu-arm-eabi.mk)
+
 #
 #   Copyright (C) 2012 PX4 Development Team. All rights reserved.
 #
@@ -76,7 +78,7 @@ ARCHINSTRUMENTATIONDEFINES_CORTEXM4F = -finstrument-functions \
 ARCHINSTRUMENTATIONDEFINES_CORTEXM4 = -finstrument-functions \
 			   -ffixed-r10
 
-ARCHINSTRUMENTATIONDEFINES_CORTEXM3 = 
+ARCHINSTRUMENTATIONDEFINES_CORTEXM3 =
 
 # Pick the right set of flags for the architecture.
 #
@@ -260,7 +262,7 @@ define SYM_TO_BIN
 	$(Q) $(OBJCOPY) -O binary $1 $2
 endef
 
-# Take the raw binary $1 and make it into an object file $2. 
+# Take the raw binary $1 and make it into an object file $2.
 # The symbol $3 points to the beginning of the file, and $3_len
 # gives its length.
 #
@@ -298,3 +300,5 @@ define BIN_TO_OBJ
 		--rename-section .data=.rodata
 	$(Q) $(REMOVE) $2.c $2.c.o
 endef
+
+$(info < out PX4Firmware/makefiles/toolchain_gnu-arm-eabi.mk)

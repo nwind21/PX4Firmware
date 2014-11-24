@@ -1,3 +1,5 @@
+$(info > in PX4Firmware/makefiles/nuttx.mk)
+
 #
 #   Copyright (C) 2012 PX4 Development Team. All rights reserved.
 #
@@ -80,3 +82,5 @@ $(NUTTX_CONFIG_HEADER):	$(NUTTX_ARCHIVE)
 
  $(LDSCRIPT): $(NUTTX_CONFIG_HEADER)
  $(NUTTX_LIBS): $(NUTTX_CONFIG_HEADER)
+
+$(info < out PX4Firmware/makefiles/nuttx.mk)

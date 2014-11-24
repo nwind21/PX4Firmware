@@ -1,3 +1,5 @@
+$(info > in PX4Firmware/Makefile)
+$(info goals $(MAKECMDGOALS) )
 #
 #   Copyright (c) 2012, 2013 PX4 Development Team. All rights reserved.
 #
@@ -55,12 +57,16 @@ export GIT_DESC
 #
 KNOWN_CONFIGS		:= $(subst config_,,$(basename $(notdir $(wildcard $(PX4_MK_DIR)config_*.mk))))
 CONFIGS			?= $(KNOWN_CONFIGS)
+$(info define KNOWN_CONFIGS := $(KNOWN_CONFIGS))
+$(info define CONFIGS := $(KNOWN_CONFIGS))
 
 #
 # Boards that we (know how to) build NuttX export kits for.
 #
 KNOWN_BOARDS		:= $(subst board_,,$(basename $(notdir $(wildcard $(PX4_MK_DIR)board_*.mk))))
 BOARDS			?= $(KNOWN_BOARDS)
+$(info define KNOWN_BOARDS := $(KNOWN_BOARDS))
+$(info define BOARDS := $(BOARDS))
 
 #
 # Debugging
@@ -104,16 +110,22 @@ DESIRED_FIRMWARES 	 = $(foreach config,$(CONFIGS),$(IMAGE_DIR)$(config).px4)
 STAGED_FIRMWARES	 = $(foreach config,$(KNOWN_CONFIGS),$(IMAGE_DIR)$(config).px4)
 FIRMWARES		 = $(foreach config,$(KNOWN_CONFIGS),$(BUILD_DIR)$(config).build/firmware.px4)
 
+$(info define CONFIGS: $(CONFIGS))
+$(info define DESIRED_FIRMWARES: $(DESIRED_FIRMWARES))
+$(info define STAGED_FIRMWARES: $(STAGED_FIRMWARES))
+$(info define FIRMWARES: $(FIRMWARES))
+
 all:			$(DESIRED_FIRMWARES)
 
 #
 # Copy FIRMWARES into the image directory.
 #
-# XXX copying the .bin files is a hack to work around the PX4IO uploader 
-#     not supporting .px4 files, and it should be deprecated onced that 
+# XXX copying the .bin files is a hack to work around the PX4IO uploader
+#     not supporting .px4 files, and it should be deprecated onced that
 #     is taken care of.
 #
 $(STAGED_FIRMWARES): $(IMAGE_DIR)%.px4: $(BUILD_DIR)%.build/firmware.px4
+	$(info in PX4Firmware/Makefile rule $(STAGED_FIRMWARES) )
 	@$(ECHO) %% Copying $@
 	$(Q) $(COPY) $< $@
 	$(Q) $(COPY) $(patsubst %.px4,%.bin,$<) $(patsubst %.px4,%.bin,$@)
@@ -125,6 +137,7 @@ $(STAGED_FIRMWARES): $(IMAGE_DIR)%.px4: $(BUILD_DIR)%.build/firmware.px4
 $(BUILD_DIR)%.build/firmware.px4: config   = $(patsubst $(BUILD_DIR)%.build/firmware.px4,%,$@)
 $(BUILD_DIR)%.build/firmware.px4: work_dir = $(BUILD_DIR)$(config).build/
 $(FIRMWARES): $(BUILD_DIR)%.build/firmware.px4:
+	$(info in PX4Firmware/Makefile)
 	@$(ECHO) %%%%
 	@$(ECHO) %%%% Building $(config) in $(work_dir)
 	@$(ECHO) %%%%
@@ -142,17 +155,19 @@ $(FIRMWARES): $(BUILD_DIR)%.build/firmware.px4:
 # and forces the _default config in all cases. There has to be a better way to do this...
 #
 FMU_VERSION		 = $(patsubst px4fmu-%,%,$(word 1, $(subst _, ,$(1))))
+$(info define FMU_VERSION: $(FMU_VERSION) )
 define FMU_DEP
-$(BUILD_DIR)$(1).build/firmware.px4: $(IMAGE_DIR)px4io-$(call FMU_VERSION,$(1))_default.px4
+$(BUILD_DIR)$(1).build/firmware.px4: $(info invoking $(BUILD_DIR)$(1).build/firmware.px4) $(IMAGE_DIR)px4io-$(call FMU_VERSION,$(1))_default.px4
 endef
 FMU_CONFIGS		:= $(filter px4fmu%,$(CONFIGS))
+$(info define FMU_CONFIGS: $(FMU_CONFIGS) )
 $(foreach config,$(FMU_CONFIGS),$(eval $(call FMU_DEP,$(config))))
 
 #
 # Build the NuttX export archives.
 #
 # Note that there are no explicit dependencies extended from these
-# archives. If NuttX is updated, the user is expected to rebuild the 
+# archives. If NuttX is updated, the user is expected to rebuild the
 # archives/build area manually. Likewise, when the 'archives' target is
 # invoked, all archives are always rebuilt.
 #
@@ -160,8 +175,9 @@ $(foreach config,$(FMU_CONFIGS),$(eval $(call FMU_DEP,$(config))))
 #     downloads of the prebuilt archives as well...
 #
 NUTTX_ARCHIVES		 = $(foreach board,$(BOARDS),$(ARCHIVE_DIR)$(board).export)
+$(info define NUTTX_ARCHIVES: $(NUTTX_ARCHIVES) )
 .PHONY:			archives
-archives:		$(NUTTX_ARCHIVES)
+archives:		$(info invoking archives) $(NUTTX_ARCHIVES)
 
 # We cannot build these parallel; note that we also force -j1 for the
 # sub-make invocations.
@@ -222,7 +238,7 @@ testbuild:
 
 #
 # Cleanup targets.  'clean' should remove all built products and force
-# a complete re-compilation, 'distclean' should remove everything 
+# a complete re-compilation, 'distclean' should remove everything
 # that's generated leaving only files that are in source control.
 #
 .PHONY:	clean
@@ -281,3 +297,5 @@ help:
 	@$(ECHO) "    If V is set, more verbose output is printed during the build. This can"
 	@$(ECHO) "    help when diagnosing issues with the build or toolchain."
 	@$(ECHO) ""
+
+$(info < out PX4Firmware/Makefile)

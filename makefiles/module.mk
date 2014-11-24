@@ -1,3 +1,4 @@
+$(info > in PX4Firmware/makefiles/module.mk)
 #
 #   Copyright (c) 2012, 2013 PX4 Development Team. All rights reserved.
 #
@@ -36,7 +37,7 @@
 # that will subsequently be linked into the firmware image.
 #
 # Modules are built as prelinked objects with a limited set of exported
-# symbols, as the global namespace is shared between all modules. Normally an 
+# symbols, as the global namespace is shared between all modules. Normally an
 # module will just export one or more <command>_main functions.
 #
 # IMPORTANT NOTE:
@@ -59,9 +60,9 @@
 # MODULE_PRIORITY	(optional if MODULE_COMMAND is set)
 #
 #	Defines a single builtin command exported by the module.
-#	MODULE_COMMAND must be unique for any configuration, but need not be the 
+#	MODULE_COMMAND must be unique for any configuration, but need not be the
 #	same as the module directory name.
-#	
+#
 #	If MODULE_ENTRYPOINT is set, it names the function (which must be exported)
 #	that will be the entrypoint for the builtin command. It defaults to
 #	$(MODULE_COMMAND)_main.
@@ -76,7 +77,7 @@
 # MODULE_COMMANDS	(optional if MODULE_COMMAND is not set)
 #
 #	Defines builtin commands exported by the module. Each word in
-#	the list should be formatted as: 
+#	the list should be formatted as:
 #		<command>.<priority>.<stacksize>.<entrypoint>
 #
 # INCLUDE_DIRS		(optional, must be appended)
@@ -87,7 +88,7 @@
 #
 # DEFAULT_VISIBILITY	(optional)
 #
-#	If not set, global symbols defined in a module will not be visible 
+#	If not set, global symbols defined in a module will not be visible
 #	outside the module. Symbols that should be globally visible must be
 #	marked __EXPORT.
 #	If set, global symbols defined in a module will be globally visible.
@@ -227,3 +228,5 @@ clean:
 	$(Q) $(REMOVE) $(MODULE_PRELINK) $(OBJS)
 
 -include $(DEPS)
+
+$(info < out PX4Firmware/makefiles/module.mk)

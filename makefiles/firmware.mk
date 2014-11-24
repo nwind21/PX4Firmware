@@ -1,3 +1,4 @@
+$(info > in PX4Firmware/makefiles/firmware.mk)
 #
 #   Copyright (C) 2012 PX4 Development Team. All rights reserved.
 #
@@ -113,7 +114,7 @@ endif
 $(info %  GIT_DESC            = $(GIT_DESC))
 
 #
-# Set a default target so that included makefiles or errors here don't 
+# Set a default target so that included makefiles or errors here don't
 # cause confusion.
 #
 # XXX We could do something cute here with $(DEFAULT_GOAL) if it's not one
@@ -177,7 +178,7 @@ GLOBAL_DEPS		+= $(MAKEFILE_LIST)
 #
 # Extra things we should clean
 #
-EXTRA_CLEANS		 = 
+EXTRA_CLEANS		 =
 
 
 #
@@ -530,3 +531,5 @@ clean:			$(MODULE_CLEANS)
 # DEP_INCLUDES is defined by the toolchain include in terms of $(OBJS)
 #
 -include $(DEP_INCLUDES)
+
+$(info < out PX4Firmware/makefiles/firmware.mk)
