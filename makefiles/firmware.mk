@@ -157,8 +157,10 @@ $(error Config $(CONFIG) references board $(BOARD), but no board definition file
 endif
 export BOARD
 export BOARD_FILE
+$(info define BOARD: $(BOARD))
+$(info define BOARD: $(BOARD_FILE))
 include $(BOARD_FILE)
-$(info %  BOARD               = $(BOARD))
+
 
 #
 # If WORK_DIR is not set, create a 'build' directory next to the
@@ -168,7 +170,7 @@ PARENT_MAKEFILE		:= $(lastword $(filter-out $(lastword $(MAKEFILE_LIST)),$(MAKEF
 ifeq ($(WORK_DIR),)
 export WORK_DIR		:= $(dir $(PARENT_MAKEFILE))build/
 endif
-$(info %  WORK_DIR            = $(WORK_DIR))
+$(info define WORK_DIR: $(WORK_DIR))
 
 #
 # Things that, if they change, might affect everything
@@ -339,6 +341,8 @@ ROMFS_FILES		+= $(wildcard \
 			     $(ROMFS_ROOT)/*/*/*/* \
 			     $(ROMFS_ROOT)/*/*/*/*/* \
 			     $(ROMFS_ROOT)/*/*/*/*/*/*)
+$(info ROMFS_FILES: $(ROMFS_FILES) )
+
 ifeq ($(ROMFS_FILES),)
 $(error ROMFS_ROOT $(ROMFS_ROOT) specifies a directory containing no files)
 endif
@@ -467,6 +471,10 @@ PRODUCT_BUNDLE		 = $(WORK_DIR)firmware.px4
 PRODUCT_BIN		 = $(WORK_DIR)firmware.bin
 PRODUCT_ELF		 = $(WORK_DIR)firmware.elf
 
+$(info define PRODUCT_BUNDLE: $(PRODUCT_BUNDLE) )
+$(info define PRODUCT_BIN: $(PRODUCT_BIN) )
+$(info define PRODUCT_ELF: $(PRODUCT_ELF) )
+
 .PHONY:			firmware
 firmware:		$(PRODUCT_BUNDLE)
 
@@ -512,6 +520,7 @@ $(PRODUCT_ELF):		$(OBJS) $(MODULE_OBJS) $(LIBRARY_LIBS) $(GLOBAL_DEPS) $(LINK_DE
 
 .PHONY: upload
 upload:	$(PRODUCT_BUNDLE) $(PRODUCT_BIN)
+	$(info invoking upload target)
 	$(Q) $(MAKE) -f $(PX4_MK_DIR)/upload.mk \
 		METHOD=serial \
 		CONFIG=$(CONFIG) \
@@ -521,6 +530,7 @@ upload:	$(PRODUCT_BUNDLE) $(PRODUCT_BIN)
 
 .PHONY: clean
 clean:			$(MODULE_CLEANS)
+	$(info invoking clean target)
 	@$(ECHO) %% cleaning
 	$(Q) $(REMOVE) $(PRODUCT_BUNDLE) $(PRODUCT_BIN) $(PRODUCT_ELF)
 	$(Q) $(REMOVE) $(OBJS) $(DEP_INCLUDES) $(EXTRA_CLEANS)
